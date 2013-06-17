@@ -1,0 +1,11 @@
+body{    
+    margin: 0;
+    padding: 0;
+    background:#d0d5cd;
+}
+#center{ 
+    MARGIN-RIGHT: auto;
+    MARGIN-LEFT: auto;
+    width:997px;
+    vertical-align:middle;
+}

@@ -1,0 +1,81 @@
+body, div, img, span {
+	margin: 0;
+	padding: 0;
+}
+a:link { text-decoration: none;}
+img {border:none;}
+body {
+	TEXT-ALIGN: center;
+}
+#center {
+	MARGIN-RIGHT: auto;
+	MARGIN-LEFT: auto;
+	width: 900px;
+	background: url(../../../style/image/sws/bgimg.jpg) repeat;
+}
+#nav {
+	height: 88px;
+}
+#nav-bott {
+	background: url(../../../style/image/sws/nav-bott.jpg) repeat-x;
+	height: 38px;
+    /*text-align: right;*/
+}
+
+#nav-bott img{
+    width: 90px;
+    height: 22px;
+    float: right;
+}
+#nav span {
+	float: left;
+	display: block;
+}
+.ph {
+	padding-left: 20px;
+	padding-right: 7px;
+	overflow: hidden;
+}
+.ll-photo {
+	float: left;
+	width: 205px;
+	height: 317px;
+	margin-right: 13px;
+}
+.ll-photo-n {
+	width: 197px;
+	height: 244px;
+    padding: 8px;
+	margin-bottom: 13px;
+	background-color: #fff;
+}
+.ll-photo-r {
+	margin-right: 0px;
+}
+.ll-photo-in {
+	height: 52px;
+	width: 205px;
+	/*background-color: #fff;*/
+}
+.ll-photo-in .usinfo {
+	float: left;
+}
+.usinfo div{
+    font-size: 12px;
+	margin-left: 15px;
+	margin-top: 5px;}
+.usinfo div{
+	 text-align:left;
+	color: #FFF;
+}
+.bg-fg {
+	background: url(../../../style/image/sws/bg-fg.jpg) repeat-x;
+    padding-top: 25px;
+	height: 32px;
+}
+.bg-fg a,span{   
+    font-weight:bold;
+    font-size: 16px;
+    color: #fff;
+    
+}

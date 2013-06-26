@@ -1,9 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class Users extends MY_Controller {    
-    
+
+  
     public function __construct()
     {
+                
         parent::__construct();
         $this->is_login();
         $this->getMenu(USERS);
@@ -30,23 +32,26 @@ class Users extends MY_Controller {
     
     /* private */    
 
-	public function index()
-	{
-       header('Location:'.site_url('users/viewUser'));   
-	}
+//	public function index()
+//	{
+//	   $this->viewUser();
+//       header('Location:'.site_url('users/viewUser'));   
+//	}
     
     //查看用户
     function viewUser($id = 0)
     {
-        $this->header();                    
+
+        $this->header();
         $data = $this->fenye($id);
         $datas = &$data;
-        
+       
         $this->page_purview($datas,USERS,'updateUser');
         $this->page_purview($datas,USERS,'isActivUser'); 
-        //print_r($data);      
+ 
         $this->load->view('users',$data);        
         $this->load->view('footer');
+ 
     }
     
 
@@ -206,7 +211,7 @@ class Users extends MY_Controller {
         $this->header();
         
         //获得所有权限
-        $menulist = $this->Menu_model->getMenu(1);        
+        $menulist = $this->menu_model->getMenu(1);        
         $purview = $this->usersgroup_model->getData($id);
         $purview = json_decode($purview['purview'],true); 
         
@@ -245,6 +250,9 @@ class Users extends MY_Controller {
         //更新权限
         if($this->usersgroup_model->updates($data,$id))
         {
+            //var_dump($this->cache->clean());
+            $this->load->driver('cache');
+            $this->cache->file->clean();
             $this->message_suc($this->lang('msg_update_suc'));//修改成功
             
         }else{

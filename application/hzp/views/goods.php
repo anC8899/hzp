@@ -28,6 +28,9 @@
                           <?php if($goodsIn):?>
                           <a class="btn pagebtn" title="入库" href="<?php echo site_url("goodsbox/goodsIn/{$d['itme_code']}") ?>">入库</a>
                           <?php endif;?>
+                          <?php if($goodsOutBox):?>
+                          <a class="btn pagebtn" title="出库" href="<?php echo site_url("goodsbox/goodsOutBox/{$d['itme_code']}") ?>">出库</a>
+                          <?php endif;?>
                           
                           </td>
                           </tr>

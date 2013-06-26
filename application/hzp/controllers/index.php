@@ -10,12 +10,12 @@ class Index extends MY_Controller {
         //用户是否登陆
         $this->is_login();
         //$controller = $this->uri->rsegment(1);
-        $this->menu = $this->Menu_model->getMenu();
+        $this->menu = $this->menu_model->getMenu();
     }
 	public function index($id = 0)
 	{
 	   //print_R($_SERVER["HTTP_USER_AGENT"]);
-       print_r($this->session->all_userdata());
+       //print_r($this->session->all_userdata());
        //echo md5($this->config->item('encryption_key'));
 	   
        //print_r($data);

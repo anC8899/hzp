@@ -39,7 +39,7 @@ $(document).ready(function(){
         //alert($form.serialize());
         $.post(action, $form.serialize(),
             function(jsonStr) {
-                var jsonObj = eval('('+jsonStr +')');
+                 jsonObj = eval('('+ jsonStr +')');
                 //alert(jsonObj.msg);
                 if(jsonObj.mod == 'success')
                 {
@@ -82,7 +82,7 @@ $(document).ready(function(){
           <ul class="nav">
             <!--<li><a href="<?php //echo site_url();?>">首页</a></li>-->
             <?php foreach($menu AS $d): ?>
-            <li class="<?php echo $d['active'];?>" ><a href="<?php echo base_url("index.php/{$d['url']}");?>"><?php echo $d['title']?></a></li>
+            <li class="<?php echo $d['active'];?>" ><a href="<?php echo site_url("{$d['url']}");?>"><?php echo $d['title']?></a></li>
             <?php endforeach?>
 <!--
             <li class="dropdown">
@@ -122,7 +122,6 @@ $(document).ready(function(){
       </div>
     </div><!-- /navbar-inner -->
   </div>
-
 </div>
 <div id="wrapper">
     <div id="main">
@@ -131,19 +130,17 @@ $(document).ready(function(){
         <div class="main-left" id="base-left">
             <div id="left-menu-each-box">
                 <div class="box" id="menu-left-box">
-            		<ul>        
+            		<ul>
                     <?php foreach($son_menu AS $m): ?>
             		    <?php 
                         if($m['is_show'] != 1):
                         if($m['checked'] == 'checked'):?>
                         
                         <li class="each-menu" id="each-menu" style="">
-                        <a href="<?php echo base_url("index.php/{$m['url']}");?>" style="color: #000;"><strong><?php echo $m['title'] ?></strong></a></li>
+                        <a href="<?php echo site_url("{$m['url']}");?>" style="color: #000;"><strong><?php echo $m['title'] ?></strong></a></li>
                         
-                        <?php else: ?>
-                        
-                        <li><a href="<?php echo base_url("index.php/{$m['url']}");?>"><?php echo $m['title'] ?></a></li>
-            
+                        <?php else: ?>                        
+                        <li><a href="<?php echo site_url("{$m['url']}");?>"><?php echo $m['title'] ?></a></li>            
                         <?php endif;endif; ?>
                     <?php endforeach;?>
             		</ul>          
@@ -160,7 +157,7 @@ $(document).ready(function(){
     <h3>提示</h3>
   </div>
   <div class="modal-body">
-    <p id="msg">信息错误</p>
+    <p id="msg"></p>
   </div>
   <div class="modal-footer">
     <a href="#" class="btn" data-dismiss="modal">关闭</a>

@@ -17,8 +17,7 @@ class MY_Controller extends CI_Controller {
         parent::__construct();
         $this->load->library('message','','msg');
         $this->controller = $this->uri->rsegment(1);
-        $this->method = $this->uri->rsegment(2);  
-        $this->load->model('menu_model'); 
+        $this->method = $this->uri->rsegment(2);
     }
     
     //获取数据分布中用于limit
@@ -48,6 +47,7 @@ class MY_Controller extends CI_Controller {
     {
         $this->load->view('header', array('menu'=>$this->menu,'son_menu'=>$this->son_menu));
     }
+    
     //输出尾
     public function footer()
     {
@@ -56,7 +56,7 @@ class MY_Controller extends CI_Controller {
     
     /**
      * $msg是提示信息
-     * $m如果为空，则反回json格式的数据     * 
+     *
      * 默认是成功
      */
     public function message($msg='',$class)
@@ -94,14 +94,19 @@ class MY_Controller extends CI_Controller {
     {
         $this->msg->message_info($msg);
     }
-    
-    
-    
+        
     //获取菜单导航
     public function getMenu($n)
     {
-        //获取导航数据
-        $menu = $this->Menu_model->getMenu();      
+        //查找缓存
+        $this->load->driver('cache');        
+        if(!$menu = $this->cache->file->get('menu'))
+        {
+            //获取导航数据
+            $menu = $this->menu_model->getMenu();            
+            $this->cache->file->save('menu', $menu,900);
+        }
+
         $menu[$n]['active'] = 'active';
 
         //获取当前方法名称，方法名称等于导航数据的关键字
@@ -131,7 +136,7 @@ class MY_Controller extends CI_Controller {
      * 默认为加载控制器相同名称的模型
      */
     public function fenye($id,$mode=0)
-    {        
+    {  
         if($mode)
         {
             //加载mode指定的模型
@@ -169,8 +174,9 @@ class MY_Controller extends CI_Controller {
                         'datalist' => $datalist, 
                         'pages' => $pages
                     );
-        
+      
         return $data;
+
     }
     
     /**
@@ -185,7 +191,14 @@ class MY_Controller extends CI_Controller {
      */
     function page_purview(&$data,$class,$method)
     {
-        $menu = $this->menu_model->getMenu();       
+        //查找缓存
+        $this->load->driver('cache');        
+        if(!$menu = $this->cache->file->get('menu'))
+        {
+            //获取导航数据
+            $menu = $this->menu_model->getMenu();            
+        }
+        
         if(is_array($menu[$class]['son'][$method]))
         {
             $data[$method] = 1;

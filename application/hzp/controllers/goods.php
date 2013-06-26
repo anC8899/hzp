@@ -73,9 +73,12 @@ class Goods extends MY_Controller {
         
         $datas = &$data;
         //入库权限
-        $this->page_purview($datas,GOODS,'goodsIn');  
+        $this->page_purview($datas,GOODS,'goodsIn');
+        //出库权限
+        $this->page_purview($datas,GOODS,'goodsOutBox');   
         //添加、修改商品权限
-        $this->page_purview($datas,GOODS,'updateGoods');               
+        $this->page_purview($datas,GOODS,'updateGoods');
+                       
         $this->load->view('goods',$data);
         $this->load->view('footer');
         

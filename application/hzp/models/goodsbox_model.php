@@ -8,13 +8,7 @@ class Goodsbox_model extends CI_Model {
     function __construct()
     {
         parent::__construct();
-    }
-    
-    function getMenu()
-    {
-    
-    }
-    
+    }    
     
     //入库
     function goodsInBox($arr)
@@ -29,6 +23,37 @@ class Goodsbox_model extends CI_Model {
         
         //更新商品库中的商品总量
         $this->db->set('quantity', 'quantity+'.$arr['quantity'],FALSE);
+        $this->db->set('createtime',time());
+        $this->db->where($this->itmecode,$itme_code);        
+        $this->db->update($this->table);
+        
+        if ($this->db->trans_status() === FALSE)
+        {
+            $this->db->trans_rollback();
+            return FALSE;
+        }
+        else
+        {
+            $this->db->trans_commit();
+            return true;
+        }
+        
+    }
+    
+    function goodsOutBox($arr)
+    {
+        $itme_code = $arr['data']['itme_code'];
+        //开始数据库的事务      
+        $this->db->trans_begin();
+
+        //插入到商品物流信息表中
+        $this->db->insert('goods_wuliu', $arr['wuliu']);        
+        $arr['data']['wl_id'] = $this->db->insert_id();//物流表ID
+        
+        $this->db->insert('goods_out', $arr['data']);
+        
+        //更新商品库中的商品总量
+        $this->db->set('quantity', 'quantity-'.$arr['data']['quantity'],FALSE);
         $this->db->set('createtime',time());
         $this->db->where($this->itmecode,$itme_code);        
         $this->db->update($this->table);
@@ -79,9 +104,31 @@ class Goodsbox_model extends CI_Model {
         {
             $data[] =   $row;
         }
-        return $data;  
-        
+        return $data;        
     }
+    
+    //返回物流公司的名称
+    function wuliucompany()
+    {
+        $this->db->select('wlname')->from('wuliucompany');
+        $query = $this->db->get();
+     
+        foreach ($query->result_array() as $row)
+        {
+            $data[] =   $row;
+        }
+        return $data;          
+    }
+    
+    //添加物流公司及订单号
+    function addOrderNum($data,$id)
+    {
+        $this->db->where('wl_id',$id);
+        $this->db->update('goods_wuliu', $data);
+        return $this->db->affected_rows();
+    }
+    
+    
 }
 /* End of file Number.php */
 /* Location: ./application/admin/models/Number.php */

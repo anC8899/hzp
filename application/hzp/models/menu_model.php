@@ -55,11 +55,11 @@ class Menu_model extends CI_Model {
         {
             $m['son'] = $son[$k];
         }
-        
+    
         return $main;
     }
     
-        //验证账号和密码是否正确，登录
+    //验证账号和密码是否正确，登录
     public function verifylogin($username,$pass)
     {
         $data = array(

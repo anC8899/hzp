@@ -8,9 +8,8 @@ class Brand extends MY_Controller {
 
         $this->is_login();        
         //获取用户的导航菜单
-        $this->getMenu(BRAND);        
+        $this->getMenu(BRAND);
         $this->load->model($this->uri->rsegment(1).'_model');
-        //$this->lang->load($this->uri->rsegment(1));
     }
 
 	public function index()

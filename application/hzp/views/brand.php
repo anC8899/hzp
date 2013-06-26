@@ -26,7 +26,7 @@
                       <td>
                       
                       <?php if($updateBrand):?>
-                      <a class="btn pagebtn" title="修改" href="<?php echo base_url("index.php/brand/updateBrand/{$d['brand_id']}") ?>"><i class="icon-pencil"></i></a>
+                      <a class="btn pagebtn" title="修改" href="<?php echo site_url("brand/updateBrand/{$d['brand_id']}") ?>"><i class="icon-pencil"></i></a>
                       <?php endif;?>
                       
                       <!--<a class="btn" href="">删除</a>-->

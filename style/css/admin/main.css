@@ -398,7 +398,7 @@ div.page span.disabled {
 }
 /*页面框架样式结束*/
 
-.pagebtn {
+.pagebtn ,.btn-danger {
     height: 14px;
     line-height: 14px;
 }
@@ -450,3 +450,4 @@ div.page span.disabled {
 /*    background-color: #eeeeee;*/
     border-top: 1px solid #ddd;        
 }
+legend {margin-bottom: 0px;}

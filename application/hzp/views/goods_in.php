@@ -10,64 +10,59 @@
     <fieldset>
       <legend>商品入库</legend>
       <div class="control-group">
-        <label class="control-label" for="input01">商品编号</label>
+        <label class="control-label" for="input01">编号</label>
         <div class="controls">
-          <input type="text" name="itme_code" class="input-xlarge" value="<?php echo $goods['itme_code'] ?>"/>
+          <input type="text" name="itme_code" class="span3" value="<?php echo $goods['itme_code'] ?>"/>
           <p class="help-block"></p>
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="input01">商品单价</label>
+        <label class="control-label" for="input01">单价</label>
         <div class="controls">
-          <input type="text" name="price" class="input-xlarge" value=""/>
+          <input type="text" name="price" class="span2" value=""/>
           <p class="help-block"></p>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="input01">数量</label>
         <div class="controls">
-          <input type="text" name="quantity" class="input-xlarge" value=""/>
+          <input type="text" name="quantity" class="span2" value=""/>
+          <p class="help-block"></p>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="input01">分类</label>
+        <div class="controls">
+         <span><?php echo $goods['base_cate'] ?></span> >> 
+         <span><?php echo $goods['categor'] ?></span> >> 
+          <span><?php echo $goods['son_cate'] ?></span>
           <p class="help-block"></p>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label">品牌</label>
         <div class="controls">
-          <span class="input-xlarge uneditable-input"><?php echo $goods['brand_name'] ?></span>
+          <span><?php echo $goods['brand_name'] ?></span>
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="input01">分类</label>
+        <label class="control-label" for="input01">规格/容量</label>
         <div class="controls">
-         <span class="input-xlarge uneditable-input"><?php echo $goods['cat_name'] ?></span>
-          <p class="help-block"></p>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="input01">关键字</label>
-        <div class="controls">
-          <span class="input-xlarge uneditable-input"><?php echo $goods['keywords'] ?></span>
-          <p class="help-block"></p>
-        </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="input01">容量</label>
-        <div class="controls">
-          <span class="input-xlarge uneditable-input"><?php echo $goods['capacity'] ?></span>
+          <span><?php echo $goods['capacity'] ?></span>
           <p class="help-block"></p>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="input01">名称</label>
         <div class="controls">
-          <span class="input-xlarge uneditable-input"><?php echo $goods['goods_name'] ?></span>
+          <span><?php echo $goods['goods_name'] ?></span>
           <p class="help-block"></p>
         </div>
       </div>      
       <div class="control-group">
         <label class="control-label" for="textarea">介绍</label>
         <div class="controls">
-         <textarea rows="10" class="input-xlarge" disabled="true" ><?php echo $goods['goods_desc'] ?></textarea>
+         <span><?php echo $goods['goods_desc'] ?></span>
         </div>
       </div>
       <div class="form-actions">

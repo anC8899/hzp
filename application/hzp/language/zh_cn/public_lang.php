@@ -30,4 +30,7 @@ $lang['user_name_repeat']         ='用户名重复';
 $lang['user_name_notnull']        ='用户名不能为空';
 $lang['user_pass_err']            ='二次输入密码不同';
 
+//goodsOut
+$lang['gout_kuchunbuzhu']     ='库存不足';
+
 ?>

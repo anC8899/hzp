@@ -12,43 +12,94 @@ class Category extends MY_Controller {
         //检测是否登录
         $this->is_login();
         $this->getMenu(BRAND); 
-        $this->load->model($this->uri->rsegment(1).'_model');
+        $this->load->model($this->uri->rsegment(1).'_model','model');
     }
+
 
 	public function index()
 	{
-	    header('Location:'.site_url().'/category/viewCategory');   	    
+	   //print_r($_POST);die;
+	    
 	}
+    
+    //分类联动
+    function ajaxCategory()
+    {
+       $post = $this->input->post();
+       $this->load->driver('cache'); 
+       if('base_cate' == $post['name'])
+       {
+        //查找缓存               
+        if(!$base_cate = $this->cache->file->get('base_cate_'.$post['value']))
+        {
+            $base_cate = $this->model->baseCategory($post['value']);
+            $this->cache->file->save('base_cate_'.$post['value'],$base_cate,900);            
+        }
+        $this->selectCategory($base_cate);
+        
+       }elseif('categor' == $post['name']){
+        
+        //查找缓存               
+        if(!$categor = $this->cache->file->get('categor_'.$post['value']))
+        {
+            $categor = $this->model->getCategory($post['value']);
+            $this->cache->file->save('categor_'.$post['value'], $categor,900);            
+        }
+        $this->selectCategory($categor);
+                    
+       }elseif('category' == $post['name']){
+        
+            //查找缓存               
+            if(!$categor = $this->cache->file->get('categor_'.$post['value']))
+            {
+                $categor = $this->model->getCategory($post['value']);
+                $this->cache->file->save('categor_'.$post['value'], $categor,900);            
+            }
+            $this->tableCategoroy($categor);        
+       }
+    }
+    
+    //输出select option
+    function selectCategory($cat)
+    {
+        foreach($cat as $c)
+        {
+            $cat_str .= "<option value='{$c['bid']}'>{$c['cate_name']}</option>";
+        }
+        echo $cat_str;        
+    }
+    
+    //输出表格
+    function tableCategoroy($cat)
+    {
+        foreach($cat as $c)
+        {
+            $cattab .= "<tr><td>{$c['bid']}</td><td>{$c['cate_name']}</td><td><a class='btn' href='".site_url("brand/updateBrand/{$d['brand_id']}")."'><i class='icon-pencil'></i></a></td></tr>";
+        }
+        echo $cattab;       
+    }
     
     //查看分类
     function viewCategory()
     {
-        $this->header();
-        $datalist = $this->getDatalist();
-        $datalist[0][0]['checked'] = 1;       
-        
-        $data = array(
-        
-            'datalist' => $datalist, 
-            'pages' => $pages,
-            'catname' => $cat_name,
-        
-        );
-        
-        $datas = &$data;
-        
+        $this->header();        
+        //获取总分类(基础分类)
+        $base_cate = $this->model->baseCategory();
+        $data = array('base_cate' => $base_cate);        
+        //$datas = &$data;        
         //取得页内权限
-        $this->page_purview($datas,BRAND,'updateCategory'); 
-        //print_R($datalist);
+        //$this->page_purview($datas,BRAND,'updateCategory'); 
         $this->load->view('category',$data);
         $this->load->view('footer');        
-    }
+    }    
     
     //更新分类
     function updateCategory($id = 0)
-    { 
-        $this->header();
-        $dataArray['cat'] = $this->getCategory();    
+    {   
+        $this->header();        
+        //获取总分类(基础分类)
+        $base_cate = $this->model->baseCategory();
+        $data = array('base_cate' => $base_cate);   
                 
         if($id)
         {
@@ -57,7 +108,7 @@ class Category extends MY_Controller {
                                
         }else{
             
-            $this->load->view('category_form',$dataArray);            
+            $this->load->view('category_form',$data);            
         }
         
         $this->load->view('footer');    
@@ -70,19 +121,19 @@ class Category extends MY_Controller {
         $post = $this->input->post();
         $data = array(
         
-                   'parent_id'   => $post['parent_id'] ,
-                   'keywords'    => $post['keywords'],
+                   'parent_id'   => $post['category'] ,
+                   'cate_name'    => $post['cate_name'],
                    'sort_order'  => $post['sort_order'],
                    'is_show'     => $post['is_show'] == 'on' ? 0 : 1,                   
                 );
          
         //验证是否重复
-        if($this->verifyCatKeywords($data['keywords']))
+        if($this->verifyCatKeywords($data['cate_name']))
         {            
             //更新
             if($post['cat_id'])
             {            
-                if($this->category_model->updateCategory($data,$post['cat_id']))
+                if($this->model->updateCategory($data,$post['cat_id']))
                 {
                     $this->message_suc($this->lang('msg_update_suc'));//修改成功
                 
@@ -94,7 +145,7 @@ class Category extends MY_Controller {
             }else{
                 
                 //添加
-                if($this->category_model->insertCategory($data))
+                if($this->model->insertCategory($data))
                 {
                     $this->message_suc($this->lang('msg_insert_suc'));//添加成功
                                       
@@ -109,7 +160,7 @@ class Category extends MY_Controller {
     //验证keywords是否重复
     public function verifyCatKeywords($keywords)
     {
-        if(!$this->category_model->verifyCatKeywords($keywords))
+        if(!$this->model->verifyCatKeywords($keywords))
         {
              $this->message_err($this->lang('cate_key_choufu'));//重复
         }
@@ -120,13 +171,13 @@ class Category extends MY_Controller {
     //获取数据
     public function getDatalist()
     {
-         return $this->category_model->getDatalist();             
+         return $catelist = $this->model->getDatalist();             
     }
     
     //获取指定id的数据
     Public function getData($id)
     {
-        return $this->category_model->getData($id);
+        return $this->model->getData($id);
     }
     
     
@@ -136,7 +187,7 @@ class Category extends MY_Controller {
      */
     function getCategory($pid = 0)
     {
-        return $this->category_model->getCategory($pid = 0);        
+        return $this->model->getCategory($pid = 0);        
     }  
 }
 

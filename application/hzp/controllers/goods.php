@@ -86,25 +86,33 @@ class Goods extends MY_Controller {
     
     
     //添加、修改商品
-    function updateGoods($id = 0)
+    function updateGoods($itmecode = 0)
     {
         $this->header();
         $this->load->helper('form');
-        $cate = $this->getCategory();
-        
-        $dataArray = array(
+        //获取总分类(基础分类)
+        $this->load->model('category_model');
+        $base_cate = $this->category_model->baseCategory();
+                
+        $data = array(
                         'brand' => $this->getBrand(),
-                        'category' => $cate,
-                        'keywords' =>  $this->getCateKeywords($cate[0]['cat_id']),            
+                        'base_cate' => $base_cate     
                     );        
-        if($id)
+        if($itmecode)
         {
-            $dataArray['goods'] = $this->getData($id);
-            $this->load->view('goods_form',$dataArray);
+            if(!$goodsinfo = $this->goods_model->getGoods($itmecode))
+            {
+               $this->message('商品有误！','error'); 
+            }
+            //获取分类和子分类
+            $data['categor'] = $this->category_model->baseCategory($goodsinfo['bid']);
+            $data['son_cate'] = $this->category_model->getCategory($goodsinfo['bcaid']);
+            $data['goods'] = $goodsinfo;
+            $this->load->view('goods_form',$data);
                                
         }else{
             
-            $this->load->view('goods_form',$dataArray);            
+            $this->load->view('goods_form',$data);            
         }
         $this->load->view('footer');        
     }
@@ -115,8 +123,9 @@ class Goods extends MY_Controller {
         $post = $this->input->post();
         $data = array(        
                        'brand_id'   => $post['brand'] ,
-                       'cat_id'   => $post['category'],
-                       'keywords_id'   => $post['keywords'],
+                       'base_cate'   => $post['base_cate'],
+                       'categor'   => $post['categor'],
+                       'son_cate'   => $post['son_cate'],
                        'itme_code'      => $post['itme_code'],
                        'capacity'   => $post['capacity'],
                        'goods_name'   => $post['goods_name'],
@@ -138,8 +147,7 @@ class Goods extends MY_Controller {
             
             //验证商品编码是否重复
             if($this->verifyItmeCode($post['itme_code']))
-            {
-            
+            {            
                 //添加数据
                 if($this->goods_model->insertGoods($data))
                 {
@@ -151,8 +159,7 @@ class Goods extends MY_Controller {
                 }   
             }
         }
-    }
-    
+    }    
 }
 
 /* End of file Goods.php */

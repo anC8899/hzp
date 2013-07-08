@@ -1,3 +1,31 @@
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+        
+  /*ajax 提交数据加提示信息 */
+	$('select').on('change', function () {
+	   var name = $(this).attr('name');
+       if('category' == name)
+       {
+        return false;
+       }
+       var valu = $(this).attr('value');
+        $.post('<?php echo site_url('Category/ajaxCategory')?>', {name:name,value:valu},
+            function(Str) {
+                if(name == 'base_cate')
+                {
+                     $("select[name=category]").html('<option>请选择..</option>'+Str);        
+                }else{
+                    
+                    $("#cate").html(Str);                    
+                }
+                   
+        });
+    });
+
+});
+-->
+</script>
 <div class="main-right" id="base-right">
 	<div class="entry-box box" id="base-right-box">
 		<div id="show-companytask-box">
@@ -11,19 +39,28 @@
     <fieldset>
       <legend>添加分类</legend>
       <div class="control-group">
-        <label class="control-label" for="select01">分类名称</label>
+        <label class="control-label" for="select01">分类</label>
         <div class="controls">
-            <select name="parent_id">
-                <?php foreach($cat AS $c):?>
-                <option value="<?php echo $c['cat_id']?>"><?php echo $c['cat_name']?></option>
+            <select name="base_cate">
+                <option>请选择..</option>
+                <?php foreach($base_cate AS $bc):?>
+                <option value="<?=$bc['bid']?>"><?=$bc['cate_name']?></option>
                 <?php endforeach?>
+            </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="select01"></label>
+        <div class="controls">
+            <select name="category">
+            <option>请选择..</option>
             </select>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="input01">关键字</label>
         <div class="controls">
-          <input type="text" name="keywords" class="input-medium" value="<?php echo $cate['keywords'] ?>" />
+          <input type="text" name="cate_name" class="input-medium" value="<?php echo $cate['cate_name'] ?>" />
           <p class="help-block"></p>
         </div>
       </div>

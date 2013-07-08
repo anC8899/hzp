@@ -13,6 +13,13 @@ html,body{ margin:0; height:100%; overflow-y:hidden;}
 #center{ position:absolute; width:310px;height: 80px; top: 50%; left:50%; margin-top: -40px;margin-left: -155px; z-index: 100;}	
 -->
 </style>
+
+<body >
+<div style="width:100%; height:100%; top: 0px; left: 0px; background-image: url(<?php //echo base_url("style/image/bg.jpg")?>);">
+<div id="center" style="overflow:hidden;" >
+<?php if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE")){ ?>
+<span class="badge badge-error">真爱生命，远离IE</span>    
+<?php }else{ ?>
 <script type="text/javascript">
 <!--
 $(document).ready(function(){       
@@ -21,12 +28,6 @@ $(document).ready(function(){
 });
 -->
 </script>
-<body >
-<div style="width:100%; height:100%; top: 0px; left: 0px; background-image: url(<?php //echo base_url("style/image/bg.jpg")?>);">
-<div id="center" style="overflow:hidden;" >
-<?php if(strpos($_SERVER["HTTP_USER_AGENT"],"MSIE")){ ?>
-真爱生命，远离IE    
-<?php }else{ ?>
 <?php echo form_open('login/login',array('class'=>"well form-inline")); ?>
   <input name="name" type="text" class="input-small" placeholder="用户名" />
   <input name="pass" type="password" class="input-small" placeholder="密码" />

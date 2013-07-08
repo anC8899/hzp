@@ -14,7 +14,7 @@
                               <th>时　　间</th> 
                           </tr>
                          </thead>         
-                         <?php foreach($datalist AS $d):?>
+                         <?php foreach((array)$datalist AS $d):?>
                           <tr>
                             <td></td>
                               <td><?php echo $d['itme_code']?></td>

@@ -29,6 +29,15 @@ class Goodsin_model extends CI_Model {
         }
         return $data;         
     }
+    
+    //获取最新一次入库的商品价格
+    function goodsPrice($itme_code)
+    {
+        $this->db->select('price')->from($this->table)->where('itme_code',$itme_code)->order_by($this->id,'desc')->limit(1);
+        $query = $this->db->get();
+        $data = $query->row_array();
+        return $data;        
+    }
 
 }
 /* End of file Number.php */

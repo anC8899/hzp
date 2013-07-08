@@ -1,37 +1,81 @@
+<style type="text/css">
+<!--
+.table li span {    display: block;    float: left;}
+-->
+</style>
+<!--  发货信息 -->
+<div class="modal fade" id="fahuoModal" style="display: none; width: 300px;margin-left: -150px;">
+  <div class="modal-header">
+    <a class="close" data-dismiss="modal" id="110">×</a>
+    <h3>提示</h3>
+  </div>
+  <div class="modal-body">
+<?php 
+    $attributes = array('class' => 'form-horizontal', '_lpchecked' => '1','id' =>'form','name'=>'form');
+    echo form_open_multipart('goodsbox/wuliufahuo',$attributes);
+?>
+<div style="display:none">
+    <input type="hidden" id="wl_id" name="wl_id" value="0" />
+</div>
+  <fieldset>
+  <div class="control-group">
+  <label class="control-label" for="input01" style="width: 80px;">物流公司</label>
+    <div class="controls" style="margin-left: 100px;">
+        <select name="wuname" class="span2" >
+            <?php foreach($wuliu AS $wl):?>
+            <option value="<?=$wl['wlname']?>"><?=$wl['wlname']?></option>
+            <?php endforeach?>
+        </select>
+    </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="input01" style="width: 80px;">物流单号</label>
+        <div class="controls" style="margin-left: 100px;">
+          <input type="text" name="w_ordernumber" id="wl11" class="span2" value="<?php echo $cate['keywords'] ?>" />
+          <p class="help-block"></p>
+        </div>
+      </div>
+  </fieldset>
+</form>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" data-dismiss="modal">关闭</a>
+    <a href="#" class="btn btn-primary" id="submit">确定发货</a>
+  </div>
+</div>
+<!-- end 发货信息 -->
+
 <div class="main-right" id="base-right">
 	<div class="entry-box box" id="base-right-box">
 		<div id="show-companytask-box">
 			<div id="companytask-box-content">						
 				<div id="content-line">                            
-                    <table class="table table-striped">
-                        <thead>
-                          <tr>
-                              <th>#</th>
-                              <th>商品编号</th>
-                              <th>实收金额</th>
-                              <th>数量</th>
-                              <th>操作人员</th>
-                              <th>时间</th> 
-                          </tr>
-                         </thead>         
-                         <?php foreach($datalist AS $d):?>                         
-                          <tr>
-                            <td></td>
-                              <td><?php echo $d['itme_code']?></td>
-                              <td><?php echo $d['amount']?></td>
-                              <td><?php echo $d['quantity']?></td>
-                              <td><?php echo $d['uname']?></td>
-                              <td><?php echo date( 'Y-m-d H:i:s',$d['createtime'])?></td>
-                          </tr>
-                          <tr>
-                            <td></td>
-                              <td><?php echo $d['wusername']?></td>
-                              <td><?php echo $d['phone']?></td>
-                              <td colspan="3"><?php echo $d['remarks']?></td>
-                          </tr>
+                    <table class="table table-condensed" id="score">
+<?php foreach((array)$datalist AS $d): $amount=0; $quantity =0; ?> 
 
-                          <?php endforeach?>
-                        </table>
+<? if(!$goodsinfo[$d['wl_id']]): continue;endif; ?>
+<?php foreach($goodsinfo[$d['wl_id']] AS $goods):?>    
+<tr>
+<td>编号</td><td><?=$goods['itme_code']?></td><td>商品</td><td><?=$goods['goods_name']?></td><td>数量</td><td><?php echo $goods['quantity']; $quantity +=$goods['quantity'];?></td><td>金额</td><td><?php echo $goods['price'];?></td>
+</tr>
+<?php endforeach?>  
+<tr>
+<td>姓名</td><td><?=$d['wusername']?></td><td>电话</td><td><?=$d['phone']?></td><td>总数量</td><td><?=$quantity?></td><td>总金额</td><td><span class="badge"><?=$d['amount']?></span></td>
+</tr>
+<tr>
+<td>地址</td><td colspan="5"><?=$d['address']?></td><td>物流</td><td><?=$d['wuliu_company']?></td>
+</tr>
+<tr>
+<td>备注</td><td colspan="5"><?php echo  '['.$d['wuliu_com'].'] '?><?=$d['remarks']?></td><td>单号</td><td><?=$d['w_ordernumber']?></td>
+</tr>
+<tr style="background-color: #CCCCCC;">
+<td>操作人</td><td><?=$d['uname']?></td><td></td><td></td><td>时间</td><td><?=date( 'Y-m-d H:i:s',$d['create_time'])?></td>
+<td></td>
+<td></td>
+</tr>    
+<?php endforeach?>                    
+</table>
+
 				</div>						
 				<div class="page"><?php echo isset($pages) ? $pages : ''?></div>						
 			</div>

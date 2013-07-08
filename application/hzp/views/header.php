@@ -9,7 +9,7 @@
 <script src="<?php echo base_url("style/js/bootstrap-dropdown.js");?>"></script>
 <script src="<?php echo base_url("style/js/bootstrap-modal.js");?>"></script>
 <script src="<?php echo base_url("style/js/bootstrap-transition.js");?>"></script>
-<script src="<?php //echo base_url("style/js/bootstrap-tooltip.js");?>"></script>
+<script src="<?php //echo base_url("style/js/bootstrap-alert.js");?>"></script>
 <script type="text/javascript">
 <!--
 $(document).ready(function(){
@@ -67,6 +67,11 @@ $(document).ready(function(){
 });
 -->
 </script>
+<style type="text/css">
+<!--
+	#alert_anc {    position: fixed;    z-index: 20;    left: 50%; }
+-->
+</style>
 <body>
 <div class="navbar navbar-fixed-top">
 <div class="navbar">
@@ -101,7 +106,7 @@ $(document).ready(function(){
             <input type="text" class="search-query span2" placeholder="搜索" />
           </form>
           <ul class="nav pull-right">
-            <!--<li><a href="#">#</a></li>-->
+            <li><a href="<?php echo site_url("goodsbox/cart");?>">购物车</a></li>
             <li class="divider-vertical"></li>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo $this->session->userdata('uname'); ?><b class="caret"></b></a>
@@ -134,11 +139,9 @@ $(document).ready(function(){
                     <?php foreach($son_menu AS $m): ?>
             		    <?php 
                         if($m['is_show'] != 1):
-                        if($m['checked'] == 'checked'):?>
-                        
+                        if($m['checked'] == 'checked'):?>                        
                         <li class="each-menu" id="each-menu" style="">
                         <a href="<?php echo site_url("{$m['url']}");?>" style="color: #000;"><strong><?php echo $m['title'] ?></strong></a></li>
-                        
                         <?php else: ?>                        
                         <li><a href="<?php echo site_url("{$m['url']}");?>"><?php echo $m['title'] ?></a></li>            
                         <?php endif;endif; ?>
@@ -165,3 +168,7 @@ $(document).ready(function(){
   </div>
 </div>
 <!-- end 提示信息 -->
+<div id="alert_anc" class="alert fade in" style="display:none ;width: 200px;margin-left: -100px;text-align: center;" >
+    <!--<button type="button" class="close" data-dismiss="alert">×</button>-->
+    <h4 id="alert_msg"></h4>
+</div>

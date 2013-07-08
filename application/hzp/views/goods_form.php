@@ -1,3 +1,33 @@
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+        
+  /*ajax 提交数据加提示信息 */
+	$('select').on('change', function () {
+	   var name = $(this).attr('name');
+       if('son_cate' == name)
+       {
+        return false;
+       }
+       var valu = $(this).attr('value');
+
+        $.post('<?php echo site_url('Category/ajaxCategory')?>', {name:name,value:valu},
+            function(Str) {
+                if(name == 'base_cate')
+                {
+                     $("select[name=categor]").html('<option>请选择..</option>'+Str);
+                     $("select[name=son_cate]").html('<option>请选择..</option>');        
+                }else{
+                    
+                    $("select[name=son_cate]").html('<option>请选择..</option>'+Str);
+                }
+                   
+        });
+    });
+
+});
+-->
+</script>
 <div class="main-right" id="base-right">
 	<div class="entry-box box" id="base-right-box">
 		<div id="show-companytask-box">
@@ -24,21 +54,33 @@
       <div class="control-group">
         <label class="control-label" for="select01">分类</label>
         <div class="controls">
-            <select  name="category">
-                <?php foreach($category AS $cay):?>
-                <option value="<?php echo $cay['cat_id']?>" <?php if($goods['cat_id'] == $cay['cat_id']): echo ' selected="selected" '; endif ?>  ><?php echo $cay['cat_name']?></option>
+            <select name="base_cate">
+                <option>请选择..</option>
+                <?php foreach($base_cate AS $bc):?>
+                <option value="<?=$bc['bid']?>" <?php if($goods['bid'] == $bc['bid']): echo  ' selected="selected" '; endif ?>><?=$bc['cate_name']?></option>
                 <?php endforeach?>
             </select>
-          <p class="help-block"></p>
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="select01">关键字</label>
+        <label class="control-label" for="select01"></label>
         <div class="controls">
-            <select  name="keywords">
-                <?php foreach($keywords AS $key):?>
-                <option value="<?php echo $key['cat_id']?>" <?php if($goods['keywords_id'] == $key['cat_id']): echo  ' selected="selected" '; endif ?> ><?php echo $key['keywords']?></option>
-                <?php endforeach?>
+            <select name="categor">
+            <option>请选择..</option>
+            <?php foreach($categor AS $cate):?>            
+            <option value="<?=$cate['bid']?>" <?php if($goods['bcaid'] == $cate['bid']): echo  ' selected="selected" '; endif ?>><?=$cate['cate_name']?></option>
+            <?php endforeach?>
+            </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="select01"></label>
+        <div class="controls">
+            <select name="son_cate">
+            <option>请选择..</option>
+            <?php foreach($son_cate AS $scate):?>            
+            <option value="<?=$scate['bid']?>" <?php if($goods['cat_id'] == $scate['bid']): echo  ' selected="selected" '; endif ?>><?=$scate['cate_name']?></option>
+            <?php endforeach?>
             </select>
         </div>
       </div>
@@ -50,16 +92,16 @@
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="input01">容量</label>
+        <label class="control-label" for="input01">名称</label>
         <div class="controls">
-          <input type="text" name="capacity" class="input-xlarge" value="<?php echo $goods['capacity'] ?>"/>
+          <input type="text" name="goods_name" class="input-xlarge" value="<?php echo $goods['goods_name'] ?>"/>
           <p class="help-block"></p>
         </div>
       </div>
       <div class="control-group">
-        <label class="control-label" for="input01">名称</label>
+        <label class="control-label" for="input01">规格/容量</label>
         <div class="controls">
-          <input type="text" name="goods_name" class="input-xlarge" value="<?php echo $goods['goods_name'] ?>"/>
+          <input type="text" name="capacity" class="input-xlarge" value="<?php echo $goods['capacity'] ?>"/>
           <p class="help-block"></p>
         </div>
       </div>

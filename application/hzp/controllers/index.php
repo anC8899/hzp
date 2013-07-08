@@ -14,6 +14,7 @@ class Index extends MY_Controller {
     }
 	public function index($id = 0)
 	{
+	   header('Location:'.site_url('goods/viewGoods'));
 	   //print_R($_SERVER["HTTP_USER_AGENT"]);
        //print_r($this->session->all_userdata());
        //echo md5($this->config->item('encryption_key'));

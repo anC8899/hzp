@@ -1,7 +1,8 @@
 <?php 
 class Category_model extends CI_Model {
     
-    var $table = 'category';
+    var $basetable = 'base_cate';// 基础分类表   
+    var $table = 'category';//分类表
     var $id = 'cat_id';
     var $pid = 'parent_id';
 
@@ -10,14 +11,27 @@ class Category_model extends CI_Model {
         parent::__construct();
     }
     
-    
+    //返回所有基础分类
+    function baseCategory($fid = 0)
+    {
+        $this->db->select('*')->from($this->basetable)->where('fid',$fid);
+        $query = $this->db->get();
+               
+        foreach ($query->result_array() as $row)
+        {
+            $data[] =   $row;
+        }
+        
+        return $data;
+    }
+
     /**
      * 默认获取分类名称 $pid=0
      * $pid为关键字的父id,如果指定$pid,则函数反回指定分类下的所有关键字
      */
     function getCategory($pid = 0)
     {
-        $this->db->select('cat_id,cat_name,keywords')->from($this->table)->where($this->pid,$pid);
+        $this->db->select('cat_id as bid,cate_name')->from($this->table)->where($this->pid,$pid);
         $query = $this->db->get(); 
                
         foreach ($query->result_array() as $row)
@@ -28,9 +42,9 @@ class Category_model extends CI_Model {
         return $data;        
     }
     
-    public function verifyCatKeywords($keywords)
+    public function verifyCatKeywords($cate_name)
     {
-        $this->db->select('*')->from($this->table)->where('keywords', $keywords);
+        $this->db->select('*')->from($this->table)->where('cate_name', $cate_name);
         $query = $this->db->get();
         
         if($query->num_rows())

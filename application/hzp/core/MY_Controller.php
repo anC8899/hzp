@@ -2,7 +2,6 @@
 define("BRAND",1); //商品管理
 define("GOODS",2); //货物管理
 define("USERS",3); //用户管理
-
 define('PERPAGE',20);//分页每页显示的数
 
 class MY_Controller extends CI_Controller {
@@ -56,23 +55,22 @@ class MY_Controller extends CI_Controller {
     
     /**
      * $msg是提示信息
-     *
+     * $class = 'error','success';
      * 默认是成功
      */
-    public function message($msg='',$class)
+    public function message($msg = '',$class = 'success')
     {
-        ob_start();//打开缓冲区        
-        $this->header();
-        
+        //打开缓冲区 
+        ob_start();       
+        $this->header();        
         $data = array(
                         'menu'=>$this->menu,
                         'son_menu'=>$this->son_menu,
                         'message'=>$msg,
                         'class' =>$class, 
-                    );
-                    
+                    );                    
         $this->load->view('message',$data);
-        $this->footer();        
+        $this->footer();  
         ob_end_flush();//输出并关闭缓冲区
         die;           
     }
@@ -120,8 +118,8 @@ class MY_Controller extends CI_Controller {
                $menu[$n]['son'][$method]['checked'] = 'checked';
                
             }else{
-    
-                $this->message('你访问的页面不存在','',1);
+                
+                $this->message('你访问的页面不存在');
             } 
         }
         
@@ -196,7 +194,7 @@ class MY_Controller extends CI_Controller {
         if(!$menu = $this->cache->file->get('menu'))
         {
             //获取导航数据
-            $menu = $this->menu_model->getMenu();            
+            $menu = $this->getMenu();
         }
         
         if(is_array($menu[$class]['son'][$method]))
